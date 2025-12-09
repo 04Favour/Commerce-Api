@@ -13,13 +13,11 @@ import { Auth } from 'src/common/decorators/auth.decorator';
 
 @Controller('users')
 @Auth(Role.USER)
-@UseGuards(JwtAuthGuard, RolesGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('/create')
   @Roles(Role.ADMIN)
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @HttpCode(HttpStatus.CREATED)
   async createuser(@Body() userDto: UserDto): Promise<{user: any}>{
     return await this.usersService.createUser(userDto)
