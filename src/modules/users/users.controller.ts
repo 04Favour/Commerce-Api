@@ -9,14 +9,17 @@ import { Role } from './enum/role.enum';
 import { SearchParams } from '../product/dto/search-params.dto';
 import { FilterProductsDto} from './dto/query.dto';
 import { ComparePasswordDto } from '../product/dto/compare-password.dto';
+import { Auth } from 'src/common/decorators/auth.decorator';
 
 @Controller('users')
+@Auth(Role.USER)
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('/create')
   @Roles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @HttpCode(HttpStatus.CREATED)
   async createuser(@Body() userDto: UserDto): Promise<{user: any}>{
     return await this.usersService.createUser(userDto)
@@ -24,13 +27,12 @@ export class UsersController {
 
   @Get('category')
   @HttpCode(HttpStatus.OK)
-  @Roles(Role.USER)
   AllCategories(){
     return this.usersService.findAllCategories()
   }
 
 
-  @Roles(Role.USER)
+  
   @Get('profile')
   @HttpCode(HttpStatus.OK)
   getProfile(@Request() req): object {
@@ -38,7 +40,7 @@ export class UsersController {
   }
 
 
-  @Roles(Role.USER)
+ 
   @Get('search')
   @HttpCode(HttpStatus.OK)
   async searchProduct(@Query() param: SearchParams){
@@ -46,7 +48,7 @@ export class UsersController {
   }
 
 
-  @Roles(Role.USER)
+ 
   @Get('all')
   @HttpCode(HttpStatus.OK)
   async getProducts(
@@ -56,28 +58,24 @@ export class UsersController {
 
   @Get('get-product/:id')
   @HttpCode(HttpStatus.OK)
-  @Roles(Role.USER)
   async getProductById(@Param('id') id: string){
     return await this.usersService.getProductById(id)
   }
 
   @Get('compare')
   @HttpCode(HttpStatus.OK)
-  @Roles(Role.USER)
   async compareProducts(@Query() ids: ComparePasswordDto){
     return await this.usersService.compareProducts(ids)
   }
 
   @Get(':id/category')
   @HttpCode(HttpStatus.OK)
-  @Roles(Role.USER)
   productByCategory(@Param('id') id:string){
     return this.usersService.productByCategory(id)
   }
 
   @Get('cat/:id')
   @HttpCode(HttpStatus.OK)
-  @Roles(Role.USER)
   getByCategoryId(@Param('id') id: string){
     return this.usersService.categorybyId(id)
   }
