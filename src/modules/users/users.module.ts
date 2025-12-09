@@ -11,6 +11,6 @@ import { CategoryModule } from '../category/category.module';
   imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]), ProductModule, CategoryModule],
   controllers: [UsersController],
   providers: [UsersService],
-  exports: [UsersService, MongooseModule]
+  exports: [UsersService,]
 })
 export class UsersModule {}

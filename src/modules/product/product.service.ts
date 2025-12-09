@@ -64,13 +64,12 @@ export class ProductService {
             const newSKU = this.generateSku(name)
             const check = await this.productModel.exists({sku: newSKU}).exec()
             if(check) throw new ConflictException();
-             const combinedWithDto = {
-                ...productDto,
-                sku: newSKU,
-                uniqueKey: uniqueKey,
-                createdBy: userId
-            }
-            const newProduct = await this.productModel.create(combinedWithDto)
+            const newProduct = await this.productModel.create({
+              ...productDto,
+              sku: newSKU,
+              uniqueKey: uniqueKey,
+              createdBy: userId
+            })
             return {
                 newProduct, 
             }

@@ -52,5 +52,5 @@ export class ProductDto {
 
     @IsOptional()
     @IsObject()
-    metadata?: object;
+    metadata: object;
 }

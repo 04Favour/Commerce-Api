@@ -11,11 +11,11 @@ import { FilterProductsDto} from './dto/query.dto';
 import { ComparePasswordDto } from '../product/dto/compare-password.dto';
 
 @Controller('users')
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('/create')
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @HttpCode(HttpStatus.CREATED)
   async createuser(@Body() userDto: UserDto): Promise<{user: any}>{
@@ -24,13 +24,12 @@ export class UsersController {
 
   @Get('category')
   @HttpCode(HttpStatus.OK)
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.USER)
   AllCategories(){
     return this.usersService.findAllCategories()
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
+
   @Roles(Role.USER)
   @Get('profile')
   @HttpCode(HttpStatus.OK)
@@ -38,7 +37,7 @@ export class UsersController {
     return req.user;
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
+
   @Roles(Role.USER)
   @Get('search')
   @HttpCode(HttpStatus.OK)
@@ -46,7 +45,7 @@ export class UsersController {
     return await this.usersService.searchProduct(param)
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
+
   @Roles(Role.USER)
   @Get('all')
   @HttpCode(HttpStatus.OK)
@@ -57,7 +56,6 @@ export class UsersController {
 
   @Get('get-product/:id')
   @HttpCode(HttpStatus.OK)
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.USER)
   async getProductById(@Param('id') id: string){
     return await this.usersService.getProductById(id)
@@ -65,7 +63,6 @@ export class UsersController {
 
   @Get('compare')
   @HttpCode(HttpStatus.OK)
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.USER)
   async compareProducts(@Query() ids: ComparePasswordDto){
     return await this.usersService.compareProducts(ids)
@@ -73,7 +70,6 @@ export class UsersController {
 
   @Get(':id/category')
   @HttpCode(HttpStatus.OK)
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.USER)
   productByCategory(@Param('id') id:string){
     return this.usersService.productByCategory(id)
@@ -81,7 +77,6 @@ export class UsersController {
 
   @Get('cat/:id')
   @HttpCode(HttpStatus.OK)
-  @UseGuards(JwtAuthGuard,RolesGuard)
   @Roles(Role.USER)
   getByCategoryId(@Param('id') id: string){
     return this.usersService.categorybyId(id)

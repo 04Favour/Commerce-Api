@@ -16,6 +16,7 @@ async function bootstrap() {
   }));
   const port = process.env.PORT
   if(!port) throw new BadGatewayException('Port has issues')
-  await app.listen(port);
+  await app.listen(port, ()=> {
+console.log(`Server running on port: ${port}`)});
 }
 bootstrap();

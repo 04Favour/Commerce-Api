@@ -10,6 +10,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ProductModule } from './modules/product/product.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { CategoryModule } from './modules/category/category.module';
+import { CartModule } from './modules/cart/cart.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -17,7 +18,7 @@ import { CategoryModule } from './modules/category/category.module';
     envFilePath: ['.env'],
     load: [databaseConfig],
     validationSchema
-  }), DatabaseModule, UsersModule, AuthModule, ProductModule, AdminModule, CategoryModule,],
+  }), DatabaseModule, UsersModule, AuthModule, ProductModule, AdminModule, CategoryModule, CartModule,],
   controllers: [],
   providers: [],
 })
